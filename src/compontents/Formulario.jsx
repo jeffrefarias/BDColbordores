@@ -13,6 +13,7 @@ const AgregarColaboradores = ({agregarColaborador}) => {
     const [errorEdad, setErrorEdad] = useState(false);
     const [errorTelefono, setErrorTelefono] = useState(false);
     const [errorEmail, setErrorEmail] = useState(false)
+    const [success, setSuccess] = useState(false);
 
 
     
@@ -20,42 +21,41 @@ const AgregarColaboradores = ({agregarColaborador}) => {
 
     const enviarFormulario = (e) => {
         e.preventDefault();
-
+        setSuccess(false); 
+        setErrorVacios(false);
+        setErrorEdad(false);
+        setErrorTelefono(false);
+        setErrorEmail(false);
+    
         if (!nombreColaborador || !correoColaborador || !cargoColaborador) {           
             setErrorVacios(true);
             return; 
         }
-
+    
         if(!validarEdad(edadColaborador)) {
             setErrorEdad(true);
             return;
         }
-
+    
         if (!validarTelefono(telefonoColaborador)) {
             setErrorTelefono(true);
             return;
         }
-
+    
         if (!validarEmail(correoColaborador)) {
             setErrorEmail(true);
             return;
         }
-
-     
-
-
-            agregarColaborador(nombreColaborador, correoColaborador, edadColaborador, cargoColaborador, telefonoColaborador);
-            setNombreColaborador("");
-            setCorreoColaborador("");
-            setEdadColaborador("");
-            setCargoColaborador("");
-            setTelefonoColaborador("");
-            setErrorVacios(false);
-            setErrorEdad(false);
-            setErrorTelefono(false);
-            setErrorEmail(false);
-
+    
+        agregarColaborador(nombreColaborador, correoColaborador, edadColaborador, cargoColaborador, telefonoColaborador);
+        setNombreColaborador("");
+        setCorreoColaborador("");
+        setEdadColaborador("");
+        setCargoColaborador("");
+        setTelefonoColaborador("");
+        setSuccess(true);
     }
+    
 
     const capturaNombre = (e) => {
         setNombreColaborador(e.target.value);
@@ -101,19 +101,19 @@ const AgregarColaboradores = ({agregarColaborador}) => {
                 <h3 className="fw-bold">Agregar Colaborador</h3>
                 <form onSubmit={enviarFormulario}>  
                 <div className="form-group mt-3">
-                  <input className="form-control" type="text" name="nombreColaborador" onChange={capturaNombre} value={nombreColaborador} placeholder="Nombre del Colaborador" />                
+                  <input className="form-control" type="text" name="nombreColaborador" onChange={capturaNombre} value={nombreColaborador} placeholder="Nombre del Colaborador" autoComplete="off"/>                
                 </div>
                 <div className="form-group mt-3">
-                  <input className="form-control" type="text" name="correoColaborador" onChange={capturaCorreo} value={correoColaborador} placeholder="Email del colaborador"/>
+                  <input className="form-control" type="text" name="correoColaborador" onChange={capturaCorreo} value={correoColaborador} placeholder="Email del colaborador" autoComplete="off"/>
                 </div>
                 <div className="form-group mt-3">
-                    <input className="form-control" type="number" name="edadColaborador" onChange={capturaEdad} value={edadColaborador} placeholder="Edad del colaborador" min="0"/>
+                    <input className="form-control" type="number" name="edadColaborador" onChange={capturaEdad} value={edadColaborador} placeholder="Edad del colaborador" min="0" autoComplete="off"/>
                 </div>
                 <div className="form-group mt-3">
-                  <input className="form-control" type="text" name="cargoColaborador" onChange={capturaCargo} value={cargoColaborador} placeholder="Cargo del colaborador"/>
+                  <input className="form-control" type="text" name="cargoColaborador" onChange={capturaCargo} value={cargoColaborador} placeholder="Cargo del colaborador" autoComplete="off"/>
                 </div>
                 <div className="form-group mt-3">
-                 <input className="form-control" type="text" name="teléfonoColaborador" onChange={capturaTelefono} value={telefonoColaborador} placeholder="Teléfono del colaborador"/>
+                 <input className="form-control" type="text" name="teléfonoColaborador" onChange={capturaTelefono} value={telefonoColaborador} placeholder="Teléfono del colaborador" autoComplete="off"/>
                 </div>                
                     <button type="submit" className="form-control btn btn-success mt-3">Ingresar Colaborador</button>
                 </form>
@@ -122,7 +122,7 @@ const AgregarColaboradores = ({agregarColaborador}) => {
                     {errorEdad ? <Alert message="Los Colaboradores no pueden ser menor a 18 años" type="danger" show={errorEdad} /> : null}
                     {errorTelefono ? <Alert message="El número de teléfono ingresado no es válido." type="danger" show={errorTelefono} /> : null}
                     {errorEmail ? <Alert message="Debe ingresar un email válido" type="danger" show={correoColaborador} /> : null}
-
+                    {success ? <Alert message="Colaborador agregado con éxito" type="success" show={success} /> : null} 
                 </div>
     
      
